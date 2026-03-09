@@ -1,48 +1,33 @@
-/* Colores de PinolApp */
+/* client/css/style.css */
 :root {
-    --verde-principal: #28a745;
-    --rojo-categoria: #e91e63;
-    --naranja-categoria: #ff9800;
-    --cian-categoria: #00bcd4;
+    --verde-pinol: #4CAF50;
+    --amarillo-pinol: #FFC107;
+    --blanco: #ffffff;
 }
 
-/* El encabezado con el saludo "Hola, Carlos" */
-.header-profile {
-    background-color: var(--verde-principal);
-    color: white;
-    padding: 30px 20px;
-    border-radius: 0 0 30px 30px;
+body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; }
+
+.header-app { background: var(--verde-pinol); color: white; padding: 15px; display: flex; align-items: center; }
+
+.item-comida { 
+    background: white; 
+    margin: 10px; 
+    padding: 15px; 
+    border-radius: 12px; 
+    display: flex; 
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* El buscador redondeado */
-.search-box {
-    width: 90%;
-    margin: -20px auto 0;
-    padding: 15px;
-    border-radius: 25px;
-    border: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+.precio { color: var(--verde-pinol); font-weight: bold; font-size: 1.2rem; }
 
-/* Los iconos de las categorías como en la foto */
-.category-card {
-    width: 65px;
-    text-align: center;
+.btn-primary { 
+    background: var(--verde-pinol); 
+    color: white; 
+    border: none; 
+    padding: 15px; 
+    width: 90%; 
+    border-radius: 25px; 
+    font-size: 1rem;
+    font-weight: bold;
 }
-
-.icon-circle {
-    width: 55px;
-    height: 55px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    margin-bottom: 5px;
-    color: white;
-}
-
-.bg-red { background: var(--rojo-categoria); }
-.bg-orange { background: var(--naranja-categoria); }
-.bg-green { background: var(--verde-principal); }
-.bg-cyan { background: var(--cian-categoria); }
