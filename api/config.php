@@ -1,14 +1,18 @@
 <?php
 // api/config.php
-$host = "tu_host_aqui";
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+
+$host = "localhost"; // O el host de tu base de datos
 $db_name = "pinolapp_db";
-$username = "tu_usuario";
-$password = "tu_password";
+$username = "root";
+$password = "";
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = new PDO("mysql:host=" . $host . ";dbname=" . $db_name, $username, $password);
+    $conn->exec("set names utf8");
 } catch(PDOException $exception) {
-    echo "Error de conexión: " . $exception->getMessage();
+    echo json_encode(["error" => "Error de conexión: " . $exception->getMessage()]);
+    exit;
 }
 ?>
