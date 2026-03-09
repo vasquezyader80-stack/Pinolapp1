@@ -1,21 +1,19 @@
 <?php
 // api/login.php
-header('Content-Type: application/json');
-include 'config.php';
+include_once 'config.php';
 
-$data = json_decode(file_get_contents('php://input'), true);
-$email = $data['email'];
-$pass = $data['password'];
+$data = json_decode(file_get_contents("php://input"));
 
-// Lógica para verificar en tu base de datos local
-// Esto es el respaldo por si no se usa la autenticación de Supabase
-if ($email == "admin@pinolapp.com" && $pass == "admin123") {
-    echo json_encode([
-        "status" => "success",
-        "role" => "super_admin",
-        "token" => "pinol_token_xyz"
-    ]);
-} else {
-    echo json_encode(["status" => "error", "message" => "Credenciales incorrectas"]);
+if(!empty($data->email) && !empty($data->password)){
+    $query = "SELECT id, nombre, rol FROM usuarios WHERE correo = ? AND password = ? LIMIT 1";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$data->email, $data->password]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($user){
+        echo json_encode(["status" => "success", "user" => $user]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Credenciales incorrectas"]);
+    }
 }
 ?>
