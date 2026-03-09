@@ -1,26 +1,26 @@
 <?php
 // api/pedidos.php
-header('Content-Type: application/json');
-include 'config.php';
+include_once 'config.php';
 
-$data = json_decode(file_get_contents('php://input'), true);
+$metodo = $_SERVER['REQUEST_METHOD'];
+$data = json_decode(file_get_contents("php://input"));
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Aquí procesamos el pedido en Córdobas
-    $cliente = $data['cliente_id'];
-    $total = $data['total'];
-    $items = $data['productos']; // Array de lo que pidió (Baho, Cerveza, etc.)
+if($metodo == 'POST'){
+    // CREAR PEDIDO (Cuando Carlos toca el botón verde)
+    $query = "INSERT INTO pedidos (usuario_id, restaurante_id, total, estado) VALUES (?, ?, ?, 'Recibido')";
+    $stmt = $conn->prepare($query);
+    
+    if($stmt->execute([$data->usuario_id, $data->restaurante_id, $data->total])){
+        echo json_encode(["status" => "success", "order_id" => $conn->lastInsertId()]);
+    }
+} 
 
-    // Lógica para insertar en Supabase o SQL local
-    echo json_encode([
-        "status" => "success",
-        "message" => "Pedido recibido",
-        "order_id" => rand(10000, 99999)
-    ]);
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    // Para que el Admin o el Restaurante consulten los pedidos
-    echo json_encode(["pedidos_activos" => []]);
+elseif($metodo == 'GET'){
+    // LEER PEDIDOS (Para el panel de admin y restaurante)
+    $query = "SELECT * FROM pedidos ORDER BY id DESC";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($pedidos);
 }
 ?>
