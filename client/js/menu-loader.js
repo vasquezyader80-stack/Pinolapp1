@@ -1,37 +1,31 @@
-// client/js/menu-loader.js
-async function cargarPlatillos() {
+// client/js/menu-logic.js
+
+async function cargarMenu() {
+    const restoId = localStorage.getItem('restaurante_actual_id');
+    
+    // Consultamos los productos filtrados por el ID del restaurante
     const { data: productos, error } = await _supabase
         .from('productos')
         .select('*')
-        .eq('disponible', true);
+        .eq('restaurante_id', restoId);
 
-    if (error) return;
+    if (error) {
+        console.error("Error al cargar menú:", error);
+        return;
+    }
 
-    const contenedor = document.getElementById('lista-menu');
-    contenedor.innerHTML = productos.map(item => `
-        <div class="item-comida">
-            <div class="info">
-                <h3>${item.nombre}</h3>
-                <p>${item.descripcion || 'Sabor pinolero auténtico'}</p>
-                <span class="precio">C$ ${item.precio}</span>
+    const listaMenu = document.getElementById('menu-items');
+    listaMenu.innerHTML = productos.map(item => `
+        <div class="menu-card" onclick="agregarAlCarrito('${item.id}', '${item.nombre}', ${item.precio})">
+            <img src="${item.imagen_url || 'images/default-food.png'}" class="food-thumb">
+            <div class="food-info">
+                <h4>${item.nombre}</h4>
+                <p class="food-desc">${item.descripcion}</p>
+                <span class="food-price">C$ ${item.precio}</span>
             </div>
-            <button onclick="agregarAlCarrito('${item.id}', '${item.nombre}', ${item.precio})">+</button>
+            <button class="btn-add">+</button>
         </div>
     `).join('');
 }
 
-// Usamos LocalStorage para guardar el carrito y que no se borre
-function agregarAlCarrito(id, nombre, precio) {
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    carrito.push({ id, nombre, precio });
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    actualizarBotonCarrito();
-}
-
-function actualizarBotonCarrito() {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const total = carrito.reduce((sum, item) => sum + item.precio, 0);
-    document.getElementById('total-carrito').innerText = `C$ ${total.toFixed(2)}`;
-}
-
-document.addEventListener('DOMContentLoaded', cargarPlatillos);
+document.addEventListener('DOMContentLoaded', cargarMenu);
