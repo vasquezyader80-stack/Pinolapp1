@@ -1,6 +1,46 @@
-<main style="padding: 20px;">
-    <h3>Gestión de Restaurantes (Chinandega/León/Managua)</h3>
-    <div id="lista-restaurantes">
-        </div>
-    <button class="btn-ver" onclick="invitarSocio()">+ Registrar Nuevo Socio</button>
-</main>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Locales - PinolApp</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>PinolApp Admin</h2>
+        <nav>
+            <a href="dashboard.html">📊 Resumen</a>
+            <a href="restaurantes.html" class="active">🍳 Restaurantes</a>
+            <a href="repartidores.html">🛵 Repartidores</a>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <header class="flex-header">
+            <h1>Restaurantes y Comercios</h1>
+            <button class="btn-add" onclick="abrirModal()">+ Nuevo Local</button>
+        </header>
+
+        <section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Ciudad</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-restaurantes">
+                    </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../restaurant/js/supabase-config.js"></script>
+    <script src="js/admin-restaurantes.js"></script>
+</body>
+</html>
