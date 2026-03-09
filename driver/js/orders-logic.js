@@ -1,6 +1,7 @@
 // Función para aceptar un pedido
 async function aceptarPedido(pedidoId) {
     const driverId = localStorage.getItem('driver_id');
+    if (!driverId) { window.location.href = 'login.html'; return; }
     
     // Actualizamos el estado del pedido en Supabase
     const { data, error } = await _supabase
