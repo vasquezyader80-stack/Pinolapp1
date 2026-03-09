@@ -3,17 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Dashboard | Repartidor</title>
+    <title>Driver - PinolApp</title>
     <link rel="stylesheet" href="../client/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .order-card { background: white; margin: 15px; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-accept { background: #4CAF50; color: white; border: none; padding: 10px; width: 100%; border-radius: 10px; font-weight: bold; }
+        .status-bar { padding: 10px; background: #333; color: white; text-align: center; }
+    </style>
 </head>
 <body>
-    <div style="background: #007bff; color: white; padding: 20px; text-align: center;">
-        <h2>Hola, Joel M.</h2>
-        <p>Ganancias de hoy: <strong>C$ 450.00</strong></p>
-    </div>
-    <div style="padding: 20px;">
-        <button class="btn-ver" onclick="location.href='pedidos.html'">Ver Pedidos Disponibles</button>
-        <button class="btn-ver" style="background: gray; margin-top: 10px;">Historial de Entregas</button>
-    </div>
+    <div class="status-bar" id="gps-status">GPS: Desconectado 🔴</div>
+    
+    <header style="padding: 20px;">
+        <h2>Pedidos Disponibles</h2>
+    </header>
+
+    <div id="lista-pedidos-driver">
+        </div>
+
+    <script src="../client/js/supabase-config.js"></script>
+    <script>
+        // Escuchar pedidos nuevos en tiempo real
+        async function suscribirPedidos() {
+            const { data: pedidos } = await _supabase.from('pedidos').select('*').eq('estado', 'Pendiente');
+            renderizarPedidos(pedidos);
+
+            _supabase.channel('custom-filter-channel')
+            .on('postgres_changes', { event: 'INSERT', table: 'pedidos', filter: 'estado=eq.Pendiente' }, payload => {
+                location.reload(); 
+            }).subscribe();
+        }
+
+        function renderizarPedidos(pedidos) {
+            const container = document.getElementById('lista-pedidos-driver');
+            container.innerHTML = pedidos.map(p => `
+                <div class="order-card">
+                    <h4>Pedido #${p.id.slice(0,5)}</h4>
+                    <p>📍 ${p.direccion}</p>
+                    <p>💰 Ganancia: C$ 40.00</p>
+                    <button class="btn-accept" onclick="aceptarPedido('${p.id}')">ACEPTAR Y NAVEGAR</button>
+                </div>
+            `).join('');
+        }
+
+        async function aceptarPedido(id) {
+            const { error } = await _supabase.from('pedidos')
+                .update({ estado: 'En camino', repartidor_id: 'ID_CONDUCTOR_REAL' })
+                .eq('id', id);
+
+            if (!error) {
+                alert("¡Pedido aceptado! Iniciando GPS...");
+                comenzarRastreo(id);
+            }
+        }
+
+        function comenzarRastreo(pedidoId) {
+            document.getElementById('gps-status').innerText = "GPS: Transmitiendo 🟢";
+            navigator.geolocation.watchPosition(async (pos) => {
+                const { lat, lon } = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+                await _supabase.from('repartidores')
+                    .update({ latitud: lat, longitud: lon })
+                    .eq('id', 'ID_CONDUCTOR_REAL');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', suscribirPedidos);
+    </script>
 </body>
 </html>
