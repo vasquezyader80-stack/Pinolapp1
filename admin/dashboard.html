@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | PinolApp</title>
+    <link rel="stylesheet" href="../client/css/style.css">
+    <style>
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
+        .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; border-left: 5px solid var(--verde-pinol); }
+        .stat-card h2 { color: var(--verde-pinol); margin: 0; }
+    </style>
+</head>
+<body>
+    <header style="background-color: #343a40;">
+        <h1>Control Central PinolApp</h1>
+        <nav>
+            <a href="restaurantes.html" style="color: white; margin-right: 15px;">Negocios</a>
+            <a href="repartidores.html" style="color: white;">Flota Moto</a>
+        </nav>
+    </header>
+
+    <section class="stats-grid">
+        <div class="stat-card">
+            <p>Ventas del Día</p>
+            <h2 id="total-ventas">C$ 0.00</h2>
+        </div>
+        <div class="stat-card">
+            <p>Pedidos Activos</p>
+            <h2 id="pedidos-hoy">0</h2>
+        </div>
+        <div class="stat-card">
+            <p>Socios Activos</p>
+            <h2 id="total-socios">0</h2>
+        </div>
+    </section>
+
+    <main style="padding: 20px;">
+        <h3>Últimos Pedidos en el Sistema</h3>
+        <table border="1" style="width: 100%; background: white; border-collapse: collapse;" id="tabla-pedidos">
+            <thead style="background: #eee;">
+                <tr>
+                    <th>ID</th>
+                    <th>Restaurante</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </main>
+
+    <script src="../client/js/supabase-config.js"></script>
+    <script src="js/admin-core.js"></script>
+</body>
+</html>
+
