@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "name": "pinolapp",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "framework": null,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "cache-control": "no-cache"
+      },
+      "continue": true
+    }
+  ]
+}
