@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repartidor PinolApp | Login</title>
+    <link rel="stylesheet" href="../client/css/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-driver">🛵</div>
+        <h2>Panel de Repartidor</h2>
+        <form id="driver-login">
+            <input type="email" id="d-email" placeholder="Correo de repartidor" required>
+            <input type="password" id="d-pass" placeholder="Contraseña" required>
+            <button type="submit" class="btn-ver" style="background-color: #007bff;">Iniciar Turno</button>
+        </form>
+    </div>
+    <script src="../client/js/supabase-config.js"></script>
+    <script src="js/driver-auth.js"></script>
+</body>
+</html>
