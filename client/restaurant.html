@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú - PinolApp</title>
+    <title>PinolApp - El Buen Sabor</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-verde-pinol">
+<body>
+
     <header class="header-app">
-        <div class="header-content">
-            <button onclick="history.back()" class="btn-back">←</button>
-            <h1>El Buen Sabor</h1>
-            <div class="cart-icon">🛒<span id="cart-count">0</span></div>
-        </div>
+        <button onclick="history.back()">←</button>
+        <h1>El Buen Sabor</h1>
+        <div class="cart-icon">🛒<span id="cart-count">0</span></div>
     </header>
 
-    <div class="banner-promo">
-        <img src="images/banner-comida.jpg" alt="Oferta del día" onerror="this.src='https://via.placeholder.com/400x150?text=Oferta+del+Dia'">
-    </div>
+    <main id="lista-menu" class="container">
+        <div class="loader-simple">Cargando menú nica...</div>
+    </main>
 
-    <section id="lista-menu" class="container">
-        <p class="loading-text">Cargando delicias...</p>
-    </section>
-
-    <div class="footer-carrito">
-        <button id="btn-ver-carrito" class="btn-primary" onclick="window.location.href='cart.html'">
+    <footer class="footer-carrito">
+        <button class="btn-primary">
             Ver carrito (<span id="total-carrito">C$ 0.00</span>)
         </button>
-    </div>
+    </footer>
 
     <script src="js/supabase-config.js"></script>
     <script src="js/menu-loader.js"></script>
