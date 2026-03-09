@@ -1,50 +1,45 @@
 // client/js/checkout-logic.js
-const resumenDiv = document.getElementById('resumen-pedido');
-const totalSpan = document.getElementById('total-final');
+
+const carrito = JSON.parse(localStorage.getItem('pinol_cart')) || [];
 
 function cargarResumen() {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    if (carrito.length === 0) {
-        resumenDiv.innerHTML = "<p>El carrito está vacío</p>";
-        return;
-    }
+    const subtotal = carrito.reduce((s, i) => s + (i.precio * i.cantidad), 0);
+    const envio = 40; // Costo estándar en Nicaragua
+    const total = subtotal + envio;
 
-    let total = 0;
-    resumenDiv.innerHTML = carrito.map(item => {
-        total += item.precio;
-        return `<p>${item.nombre} - <strong>C$ ${item.precio}</strong></p>`;
-    }).join('');
-
-    totalSpan.innerText = `C$ ${total.toFixed(2)}`;
+    document.getElementById('subtotal').innerText = `C$ ${subtotal.toFixed(2)}`;
+    document.getElementById('total-final').innerText = `C$ ${total.toFixed(2)}`;
 }
 
-async function procesarPedido() {
-    const carrito = JSON.parse(localStorage.getItem('carrito'));
+async function enviarPedido() {
     const direccion = document.getElementById('direccion').value;
-    const clienteId = localStorage.getItem('user_id'); // Asegúrate de tener esto del login
+    const telefono = document.getElementById('telefono').value;
+    const metodo = document.getElementById('metodo-pago').value;
 
-    if (!direccion) {
-        alert("Por favor, ingresa tu dirección en Nicaragua.");
+    if (!direccion || !telefono) {
+        alert("Por favor, completa los datos de entrega.");
         return;
     }
 
+    // Guardamos en la tabla 'pedidos' de Supabase
     const { data, error } = await _supabase
         .from('pedidos')
         .insert([{
-            cliente_id: clienteId,
-            items: carrito,
-            total: carrito.reduce((s, i) => s + i.precio, 0),
+            cliente_nombre: localStorage.getItem('user_name') || 'Cliente Anónimo',
             direccion: direccion,
-            estado: 'Pendiente' // Esto lo verá el restaurante en su panel
-        }])
-        .select();
+            telefono: telefono,
+            total: parseFloat(document.getElementById('total-final').innerText.replace('C$ ', '')),
+            items: carrito,
+            estado: 'Pendiente',
+            metodo_pago: metodo
+        }]);
 
     if (error) {
-        alert("Hubo un error al procesar tu pedido.");
+        alert("Error al enviar pedido: " + error.message);
     } else {
         alert("¡Pedido enviado con éxito!");
-        localStorage.removeItem('carrito'); // Limpiamos el carrito
-        window.location.href = 'tracking.html?id=' + data[0].id;
+        localStorage.removeItem('pinol_cart'); // Limpiamos carrito
+        window.location.href = 'tracking.html'; // Vamos al mapa
     }
 }
 
