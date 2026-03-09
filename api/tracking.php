@@ -1,17 +1,14 @@
 <?php
 // api/tracking.php
-header('Content-Type: application/json');
-include 'config.php';
+include_once 'config.php';
 
-$pedido_id = $_GET['id'];
-
-// Simulación de respuesta de base de datos
-// En una app real, esto conectaría con la tabla de GPS del repartidor
-echo json_encode([
-    "pedido_id" => $pedido_id,
-    "lat" => 12.1364, 
-    "lng" => -86.2514,
-    "estado" => "En camino",
-    "repartidor" => "Joel M."
-]);
+if(isset($_GET['order_id'])){
+    $query = "SELECT p.estado, r.nombre as motorizado, r.telefono 
+              FROM pedidos p 
+              LEFT JOIN repartidores r ON p.repartidor_id = r.id 
+              WHERE p.id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$_GET['order_id']]);
+    echo json_encode($stmt->fetch(PDO::FETCH_ASSOC));
+}
 ?>
