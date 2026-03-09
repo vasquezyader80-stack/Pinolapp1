@@ -2,14 +2,11 @@
 // api/repartidores.php
 include 'config.php';
 
-// Endpoint para obtener repartidores activos en el mapa
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    // Simulación de consulta a la tabla 'repartidores'
-    $repartidores = [
-        ["id" => 1, "nombre" => "Juan Pérez", "moto" => "Honda Navi", "estado" => "En ruta"],
-        ["id" => 2, "nombre" => "Luis García", "moto" => "Yamaha", "estado" => "Disponible"]
-    ];
-    echo json_encode($repartidores);
+$data = json_decode(file_get_contents('php://input'), true);
+
+if ($data['accion'] == 'aprobar') {
+    $id_motorizado = $data['id'];
+    // Lógica SQL para cambiar estado a 'activo'
+    echo json_encode(["status" => "ok", "msj" => "Motorizado aprobado para PinolApp"]);
 }
 ?>
-  
