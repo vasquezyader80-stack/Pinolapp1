@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pedido | PinolApp</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header style="background-color: #28a745;">
+        <h1>Confirmar Pedido</h1>
+    </header>
+    <main style="padding: 20px;">
+        <div class="resumen-pago">
+            <h3>Tu Orden</h3>
+            <div id="lista-resumen"></div>
+            <hr>
+            <h4>Total a pagar: <span id="total-checkout">C$ 0.00</span></h4>
+        </div>
+        
+        <div class="datos-entrega">
+            <label>Dirección exacta (Ej: De la cancillería 2c al sur):</label>
+            <textarea id="direccion" placeholder="Escribe tu dirección aquí..."></textarea>
+            <label>Teléfono de contacto:</label>
+            <input type="tel" id="telefono" placeholder="8888-8888">
+        </div>
+
+        <button class="btn-ver" onclick="enviarPedidoFinal()">Hacer Pedido</button>
+    </main>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>
