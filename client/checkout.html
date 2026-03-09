@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finalizar Pedido | PinolApp</title>
+    <title>Confirmar Pedido - PinolApp</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <header style="background-color: #28a745;">
-        <h1>Confirmar Pedido</h1>
+    <header class="header-app">
+        <button onclick="history.back()">⬅️</button>
+        <h1>Finalizar Pedido</h1>
     </header>
-    <main style="padding: 20px;">
-        <div class="resumen-pago">
-            <h3>Tu Orden</h3>
-            <div id="lista-resumen"></div>
-            <hr>
-            <h4>Total a pagar: <span id="total-checkout">C$ 0.00</span></h4>
-        </div>
-        
-        <div class="datos-entrega">
-            <label>Dirección exacta (Ej: De la cancillería 2c al sur):</label>
-            <textarea id="direccion" placeholder="Escribe tu dirección aquí..."></textarea>
-            <label>Teléfono de contacto:</label>
-            <input type="tel" id="telefono" placeholder="8888-8888">
+
+    <div class="container">
+        <h3>Tu Resumen</h3>
+        <div id="resumen-pedido" class="card">
+            </div>
+
+        <div class="direccion-envio">
+            <h3>📍 Dirección de Entrega</h3>
+            <textarea id="direccion" placeholder="Ej: De la Gasolinera Uno 2c al sur, León"></textarea>
         </div>
 
-        <button class="btn-ver" onclick="enviarPedidoFinal()">Hacer Pedido</button>
-    </main>
+        <div class="metodo-pago">
+            <p><strong>Total a pagar:</strong> <span id="total-final">C$ 0.00</span></p>
+        </div>
+
+        <button id="btn-confirmar" class="btn-primary" onclick="procesarPedido()">
+            Confirmar Pedido
+        </button>
+    </div>
+
     <script src="js/supabase-config.js"></script>
-    <script src="js/checkout.js"></script>
+    <script src="js/checkout-logic.js"></script>
 </body>
 </html>
