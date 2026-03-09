@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - PinolApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-verde-pinol">
+    <header class="header-app">
+        <button onclick="history.back()">⬅️</button>
+        <h1 id="nombre-restaurante">Cargando...</h1>
+    </header>
+
+    <div class="banner-promo">
+        <img src="images/banner-comida.jpg" alt="Oferta del día">
+    </div>
+
+    <section id="lista-menu" class="container">
+        </section>
+
+    <div class="footer-carrito">
+        <button id="btn-ver-carrito" class="btn-primary">
+            Ver carrito (<span id="total-carrito">C$ 0.00</span>)
+        </button>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/menu-loader.js"></script>
+</body>
+</html>
