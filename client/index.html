@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PinolApp - ¡A la orden!</title>
-    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4CAF50">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
         :root {
@@ -73,21 +75,19 @@
     </div>
 
     <script>
-        // LÓGICA DE REDIRECCIÓN
         document.addEventListener('DOMContentLoaded', () => {
             console.log("PinolApp inicializada...");
 
-            // Esperamos 3 segundos y redirigimos
+            // Pequeño truco para asegurar que el Service Worker no bloquee el despliegue
             setTimeout(() => {
-                // Cambia 'restaurant.html' por 'home.html' si esa es tu página principal
                 window.location.href = 'restaurant.html';
-            }, 3500);
+            }, 3000);
         });
 
-        // Registro del Service Worker para funcionamiento Offline
+        // Registro del Service Worker corregido (apuntando a la raíz)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('../sw.js')
+                navigator.serviceWorker.register('/sw.js')
                     .then(reg => console.log('SW registrado', reg))
                     .catch(err => console.warn('Error al registrar SW', err));
             });
