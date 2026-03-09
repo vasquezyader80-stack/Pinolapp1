@@ -3,50 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PinolApp - Inicio</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>PinolApp - ¡A la orden!</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root { --verde: #4CAF50; --oscuro: #2E7D32; }
+        body, html { margin: 0; padding: 0; font-family: sans-serif; overflow-x: hidden; }
+        
+        /* Splash Screen */
+        #splash {
+            background: linear-gradient(180deg, var(--verde), var(--oscuro));
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white;
+            position: fixed; width: 100%; z-index: 1000; transition: 0.5s;
+        }
+        .logo { width: 150px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        /* Home Layout */
+        #home { display: none; background: #f4f4f4; min-height: 100vh; }
+        header { background: var(--verde); padding: 30px 20px; color: white; border-radius: 0 0 25px 25px; }
+        .search { background: white; border-radius: 10px; padding: 10px; margin-top: 15px; display: flex; }
+        .search input { border: none; width: 100%; outline: none; margin-left: 10px; }
+    </style>
 </head>
 <body>
-    <header class="home-header">
-        <div class="user-info">
-            <p>Hola, <span id="user-name">Usuario</span> 👋</p>
-            <h3>¿Qué te gustaría pedir hoy?</h3>
-        </div>
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Buscar en PinolApp...">
-        </div>
-    </header>
 
-    <section class="categories">
-        <div class="cat-item" onclick="filtrar('Restaurantes')">
-            <div class="icon-circle bg-red">🍴</div>
-            <span>Restaurantes</span>
-        </div>
-        <div class="cat-item" onclick="filtrar('Rapido')">
-            <div class="icon-circle bg-orange">⏱️</div>
-            <span>Rápido</span>
-        </div>
-        <div class="cat-item" onclick="filtrar('Farmacias')">
-            <div class="icon-circle bg-green">💊</div>
-            <span>Farmacias</span>
-        </div>
-        <div class="cat-item" onclick="filtrar('Mercados')">
-            <div class="icon-circle bg-blue">🛒</div>
-            <span>Mercados</span>
-        </div>
-    </section>
+    <div id="splash">
+        <img src="client/images/logo-pinolapp.png" class="logo" onerror="this.src='https://via.placeholder.com/150?text=PinolApp'">
+        <h1>Cargando el sabor nica...</h1>
+    </div>
 
-    <section class="nearby">
-        <div class="section-title">
-            <h3>Restaurantes Cercanos</h3>
-            <a href="#">Ver todos</a>
+    <div id="home">
+        <header>
+            <span>Hola, Nica 👋</span>
+            <h2>¿Qué vamos a pedir?</h2>
+            <div class="search">🔍 <input type="text" placeholder="Buscar comida, farmacia..."></div>
+        </header>
         </div>
-        <div id="restaurantes-lista" class="restaurantes-grid">
-            </div>
-    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/home-logic.js"></script>
+    <script>
+        // Registro del Service Worker para que sea instalable
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log("PinolApp PWA Activa"))
+                .catch(err => console.log("Error SW:", err));
+        }
+
+        // Transición de pantalla
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('splash').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('splash').style.display = 'none';
+                    document.getElementById('home').style.display = 'block';
+                }, 500);
+            }, 2000);
+        };
+    </script>
 </body>
 </html>
