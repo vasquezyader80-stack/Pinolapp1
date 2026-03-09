@@ -4,167 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PinolApp - ¡A la orden!</title>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="../manifest.json">
     <meta name="theme-color" content="#4CAF50">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         :root {
             --verde-pinol: #4CAF50;
             --verde-oscuro: #2E7D32;
-            --amarillo: #FFC107;
             --blanco: #ffffff;
-            --gris-claro: #f4f4f4;
         }
 
-        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; height: 100%; overflow-x: hidden; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
 
-        /* --- PANTALLA DE CARGA (SPLASH) --- */
         #splash-screen {
-            background: linear-gradient(180deg, var(--verde-pinol) 0%, var(--verde-oscuro) 100%);
+            background: linear-gradient(180deg, var(--verde-pinol), var(--verde-oscuro));
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
+            text-align: center;
         }
 
-        .logo-splash { width: 180px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-
-        /* --- HOME SCREEN --- */
-        #home-screen { display: none; background: var(--gris-claro); min-height: 100vh; }
-
-        header { background: var(--verde-pinol); padding: 25px 20px; color: white; border-radius: 0 0 25px 25px; }
-        
-        .search-bar {
-            background: white;
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .logo-container img {
+            width: 120px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
         }
-        .search-bar input { border: none; width: 100%; outline: none; font-size: 16px; margin-left: 10px; }
 
-        /* CATEGORÍAS */
-        .categories { display: flex; justify-content: space-around; padding: 20px 10px; }
-        .cat-item { text-align: center; cursor: pointer; }
-        .icon-circle { 
-            width: 60px; height: 60px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 24px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--blanco);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-top: 20px;
         }
-        .bg-red { background: #fee2e2; } .bg-orange { background: #ffedd5; }
-        .bg-green { background: #dcfce7; } .bg-blue { background: #dbeafe; }
 
-        /* RESTAURANTES */
-        .section-title { padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
-        .res-grid { display: flex; overflow-x: auto; padding: 10px 20px; gap: 15px; scrollbar-width: none; }
-        .res-card { 
-            min-width: 220px; background: white; border-radius: 18px; 
-            overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        .res-card img { width: 100%; height: 120px; object-fit: cover; }
-        .res-info { padding: 12px; }
-        .res-info h4 { margin: 0; font-size: 16px; }
-        .res-meta { font-size: 12px; color: #666; margin-top: 5px; }
-        .price-badge { background: #fff3cd; padding: 2px 8px; border-radius: 5px; font-weight: bold; font-size: 11px; }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
-        <img src="client/images/logo-pinolapp.png" alt="PinolApp Logo" class="logo-splash" onerror="this.src='https://via.placeholder.com/150?text=PinolApp'">
+        <div class="logo-container">
+            <img src="images/logo.png" alt="PinolApp" onerror="this.src='https://via.placeholder.com/120?text=PinolApp'">
+        </div>
         <h1>Cargando el sabor nica...</h1>
-    </div>
-
-    <div id="home-screen">
-        <header>
-            <div style="display: flex; justify-content: space-between;">
-                <div>
-                    <span style="font-size: 18px;">Hola, Nica 👋</span>
-                    <h2 style="margin: 5px 0;">¿Qué te gustaría pedir hoy?</h2>
-                </div>
-            </div>
-            <div class="search-bar">
-                <span>🔍</span>
-                <input type="text" placeholder="Buscar en PinolApp...">
-            </div>
-        </header>
-
-        <section class="categories">
-            <div class="cat-item">
-                <div class="icon-circle bg-red">🍴</div>
-                <span>Restaurantes</span>
-            </div>
-            <div class="cat-item">
-                <div class="icon-circle bg-orange">⏱️</div>
-                <span>Rápido</span>
-            </div>
-            <div class="cat-item">
-                <div class="icon-circle bg-green">💊</div>
-                <span>Farmacias</span>
-            </div>
-            <div class="cat-item">
-                <div class="icon-circle bg-blue">🛒</div>
-                <span>Mercados</span>
-            </div>
-        </section>
-
-        <section class="nearby">
-            <div class="section-title">
-                <h3>Restaurantes Cercanos</h3>
-                <a href="#" style="color: var(--verde-pinol); text-decoration: none; font-weight: bold;">Ver todos</a>
-            </div>
-            <div class="res-grid" id="lista-restaurantes">
-                <div class="res-card">
-                    <img src="https://via.placeholder.com/220x120?text=El+Buen+Sabor" alt="Restaurante">
-                    <div class="res-info">
-                        <h4>El Buen Sabor</h4>
-                        <div class="res-meta">⭐ 4.8 | 🕒 25 min</div>
-                        <div style="margin-top: 8px;"><span class="price-badge">Envío C$ 40</span></div>
-                    </div>
-                </div>
-                <div class="res-card">
-                    <img src="https://via.placeholder.com/220x120?text=Súper+Típico" alt="Restaurante">
-                    <div class="res-info">
-                        <h4>Súper Típico</h4>
-                        <div class="res-meta">⭐ 4.5 | 🕒 20 min</div>
-                        <div style="margin-top: 8px;"><span class="price-badge">Envío C$ 50</span></div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div class="loader"></div>
     </div>
 
     <script>
-        // Lógica de transición Splash -> Home
-        window.onload = () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                const home = document.getElementById('home-screen');
-                
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                    home.style.display = 'block';
-                }, 500);
-            }, 2500); // 2.5 segundos de Splash
-        };
+        // LÓGICA DE REDIRECCIÓN
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("PinolApp inicializada...");
 
-        // Aquí conectarás luego con supabase-config.js
+            // Esperamos 3 segundos y redirigimos
+            setTimeout(() => {
+                // Cambia 'restaurant.html' por 'home.html' si esa es tu página principal
+                window.location.href = 'restaurant.html';
+            }, 3500);
+        });
+
+        // Registro del Service Worker para funcionamiento Offline
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js')
+                    .then(reg => console.log('SW registrado', reg))
+                    .catch(err => console.warn('Error al registrar SW', err));
+            });
+        }
     </script>
 </body>
 </html>
-// Esperar 3 segundos para que el usuario vea el logo y luego saltar
-setTimeout(() => {
-    // Si el usuario ya inició sesión antes, va al Home
-    // Si no, lo mandamos al Login o al catálogo abierto
-    window.location.href = 'home.html'; 
-}, 3000);
