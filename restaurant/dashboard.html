@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Restaurante - PinolApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="header-resto">
+        <h1>Panel de Control</h1>
+        <p id="nombre-negocio">Cargando restaurante...</p>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>Ventas Hoy</h3>
+            <p id="ventas-hoy">C$ 0.00</p>
+        </div>
+        <div class="stat-card">
+            <h3>Pedidos Pendientes</h3>
+            <p id="pedidos-conteo">0</p>
+        </div>
+    </div>
+
+    <div class="menu-acciones">
+        <button onclick="window.location.href='pedidos.html'" class="btn-main">📦 Ver Pedidos</button>
+        <button onclick="window.location.href='menu.html'" class="btn-secondary">🍴 Gestionar Menú</button>
+    </div>
+
+    <div class="footer-actions">
+        <button onclick="authRestaurante.logout()" class="btn-exit">Cerrar Sesión</button>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
