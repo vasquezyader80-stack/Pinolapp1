@@ -1,32 +1,50 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PinolApp | Inicio</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">PinolApp</div>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar Baho, Carne Asada...">
-            </div>
-            <div class="cart-icon" onclick="location.href='cart.html'">
-                🛒 <span id="cart-count">0</span>
-            </div>
-        </nav>
-    </header>
+// client/js/home.js
 
-    <main id="app">
-        <h2>Restaurantes Disponibles</h2>
-        <section class="restaurant-list" id="restaurant-list">
-            <p>Buscando sabores locales...</p>
-        </section>
-    </main>
+// 1. Saludo personalizado (Persistencia de LocalStorage)
+function mostrarSaludo() {
+    const nombreUsuario = localStorage.getItem('user_name') || 'Invitado';
+    document.getElementById('user-greeting').innerHTML = `Hola, ${nombreUsuario} 👋`;
+}
 
-    <script src="js/supabase-config.js"></script>
-    <script src="js/home.js"></script>
-</body>
-</html>
+// 2. Cargar Categorías (como en la foto)
+const categorias = [
+    { nombre: 'Restaurantes', icon: '🍴', color: 'bg-red' },
+    { nombre: 'Rápido', icon: '⏱️', color: 'bg-orange' },
+    { nombre: 'Farmacias', icon: '💊', color: 'bg-green' },
+    { nombre: 'Mercados', icon: '🛒', color: 'bg-cyan' }
+];
+
+function renderizarCategorias() {
+    const container = document.getElementById('categories-container');
+    container.innerHTML = categorias.map(cat => `
+        <div class="category-item">
+            <div class="category-icon ${cat.color}">${cat.icon}</div>
+            <span>${cat.nombre}</span>
+        </div>
+    `).join('');
+}
+
+// 3. Cargar "Restaurantes Cercanos"
+async function cargarCercanos() {
+    const { data: locales } = await _supabase
+        .from('restaurantes')
+        .select('*')
+        .limit(4);
+
+    const list = document.getElementById('restaurantes-cercanos');
+    list.innerHTML = locales.map(res => `
+        <div class="card-mini" onclick="verMenu(${res.id})">
+            <img src="${res.imagen_url}" alt="${res.nombre}">
+            <div class="info">
+                <h4>${res.nombre}</h4>
+                <p>⭐ 4.5 • 20 min</p>
+                <span class="price-tag">C$ 550</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Inicializar
+mostrarSaludo();
+renderizarCategorias();
+cargarCercanos();
