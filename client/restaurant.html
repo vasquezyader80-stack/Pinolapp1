@@ -9,25 +9,28 @@
 </head>
 <body class="bg-verde-pinol">
     <header class="header-app">
-        <link rel="stylesheet" href="css/
-            style.css">
+        <div class="header-content">
+            <button onclick="history.back()" class="btn-back">←</button>
+            <h1>El Buen Sabor</h1>
+            <div class="cart-icon">🛒<span id="cart-count">0</span></div>
+        </div>
     </header>
 
     <div class="banner-promo">
-        <img src="images/banner-comida.jpg" alt="Oferta del día">
+        <img src="images/banner-comida.jpg" alt="Oferta del día" onerror="this.src='https://via.placeholder.com/400x150?text=Oferta+del+Dia'">
     </div>
 
     <section id="lista-menu" class="container">
-        </section>
+        <p class="loading-text">Cargando delicias...</p>
+    </section>
 
     <div class="footer-carrito">
-        <button id="btn-ver-carrito" class="btn-primary">
+        <button id="btn-ver-carrito" class="btn-primary" onclick="window.location.href='cart.html'">
             Ver carrito (<span id="total-carrito">C$ 0.00</span>)
         </button>
     </div>
 
     <script src="js/supabase-config.js"></script>
-<script src="js/menu-loader.js"></script>
-
+    <script src="js/menu-loader.js"></script>
 </body>
 </html>
