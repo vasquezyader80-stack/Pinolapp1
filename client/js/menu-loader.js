@@ -1,36 +1,46 @@
-// client/js/menu-logic.js
-
-async function cargarMenu() {
-    const restoId = localStorage.getItem('restaurante_actual_id');
-    
-    // Consultamos los productos filtrados por el ID del restaurante
-    const { data: productos, error } = await _supabase
-        .from('productos')
-        .select('*')
-        .eq('restaurante_id', restoId);
-
-    if (error) {
-        console.error("Error al cargar menú:", error);
-        return;
-    }
-
-    const listaMenu = document.getElementById('menu-items');
-    listaMenu.innerHTML = productos.map(item => `
-        <div class="menu-card" onclick="agregarAlCarrito('${item.id}', '${item.nombre}', ${item.precio})">
-            <img src="${item.imagen_url || 'images/default-food.png'}" class="food-thumb">
-            <div class="food-info">
-                <h4>${item.nombre}</h4>
-                <p class="food-desc">${item.descripcion}</p>
-                <span class="food-price">C$ ${item.precio}</span>
-            </div>
-            <button class="btn-add">+</button>
-        </div>
-    `).join('');
-}
-
-document.addEventListener('DOMContentLoaded', cargarMenu);
 // client/js/menu-loader.js
 
-// --- Al final del archivo ---
-// Esto hace que los productos aparezcan en pantalla de una vez
+async function cargarPlatillos() {
+    const listaMenu = document.getElementById('lista-menu');
+    
+    try {
+        const { data: productos, error } = await _supabase
+            .from('productos')
+            .select('*')
+            .eq('disponible', true);
+
+        if (error) throw error;
+
+        // Limpiar el mensaje de "Cargando"
+        listaMenu.innerHTML = '';
+
+        if (productos.length === 0) {
+            listaMenu.innerHTML = '<p style="text-align:center;">No hay platillos disponibles hoy.</p>';
+            return;
+        }
+
+        productos.forEach(producto => {
+            const card = `
+                <div class="card-producto">
+                    <img src="${producto.imagen_url}" alt="${producto.nombre}">
+                    <div class="info">
+                        <h3>${producto.nombre}</h3>
+                        <p>${producto.descripcion}</p>
+                        <span class="precio">C$ ${producto.precio}</span>
+                        <button onclick="agregarAlCarrito(${producto.id}, '${producto.nombre}', ${producto.precio})">
+                            Agregar
+                        </button>
+                    </div>
+                </div>
+            `;
+            listaMenu.innerHTML += card;
+        });
+
+    } catch (err) {
+        console.error("Error cargando menú:", err);
+        listaMenu.innerHTML = '<p>Error al conectar con la cocina. Intenta de nuevo.</p>';
+    }
+}
+
+// Ejecutar al cargar la página
 document.addEventListener('DOMContentLoaded', cargarPlatillos);
