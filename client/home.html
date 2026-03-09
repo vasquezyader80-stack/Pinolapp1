@@ -1,50 +1,52 @@
-// client/js/home.js
-
-// 1. Saludo personalizado (Persistencia de LocalStorage)
-function mostrarSaludo() {
-    const nombreUsuario = localStorage.getItem('user_name') || 'Invitado';
-    document.getElementById('user-greeting').innerHTML = `Hola, ${nombreUsuario} 👋`;
-}
-
-// 2. Cargar Categorías (como en la foto)
-const categorias = [
-    { nombre: 'Restaurantes', icon: '🍴', color: 'bg-red' },
-    { nombre: 'Rápido', icon: '⏱️', color: 'bg-orange' },
-    { nombre: 'Farmacias', icon: '💊', color: 'bg-green' },
-    { nombre: 'Mercados', icon: '🛒', color: 'bg-cyan' }
-];
-
-function renderizarCategorias() {
-    const container = document.getElementById('categories-container');
-    container.innerHTML = categorias.map(cat => `
-        <div class="category-item">
-            <div class="category-icon ${cat.color}">${cat.icon}</div>
-            <span>${cat.nombre}</span>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PinolApp - Inicio</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="home-header">
+        <div class="user-info">
+            <p>Hola, <span id="user-name">Usuario</span> 👋</p>
+            <h3>¿Qué te gustaría pedir hoy?</h3>
         </div>
-    `).join('');
-}
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Buscar en PinolApp...">
+        </div>
+    </header>
 
-// 3. Cargar "Restaurantes Cercanos"
-async function cargarCercanos() {
-    const { data: locales } = await _supabase
-        .from('restaurantes')
-        .select('*')
-        .limit(4);
+    <section class="categories">
+        <div class="cat-item" onclick="filtrar('Restaurantes')">
+            <div class="icon-circle bg-red">🍴</div>
+            <span>Restaurantes</span>
+        </div>
+        <div class="cat-item" onclick="filtrar('Rapido')">
+            <div class="icon-circle bg-orange">⏱️</div>
+            <span>Rápido</span>
+        </div>
+        <div class="cat-item" onclick="filtrar('Farmacias')">
+            <div class="icon-circle bg-green">💊</div>
+            <span>Farmacias</span>
+        </div>
+        <div class="cat-item" onclick="filtrar('Mercados')">
+            <div class="icon-circle bg-blue">🛒</div>
+            <span>Mercados</span>
+        </div>
+    </section>
 
-    const list = document.getElementById('restaurantes-cercanos');
-    list.innerHTML = locales.map(res => `
-        <div class="card-mini" onclick="verMenu(${res.id})">
-            <img src="${res.imagen_url}" alt="${res.nombre}">
-            <div class="info">
-                <h4>${res.nombre}</h4>
-                <p>⭐ 4.5 • 20 min</p>
-                <span class="price-tag">C$ 550</span>
+    <section class="nearby">
+        <div class="section-title">
+            <h3>Restaurantes Cercanos</h3>
+            <a href="#">Ver todos</a>
+        </div>
+        <div id="restaurantes-lista" class="restaurantes-grid">
             </div>
-        </div>
-    `).join('');
-}
+    </section>
 
-// Inicializar
-mostrarSaludo();
-renderizarCategorias();
-cargarCercanos();
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/home-logic.js"></script>
+</body>
+</html>
