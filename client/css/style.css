@@ -1,42 +1,38 @@
-/* Estilo de la barra de búsqueda y categorías */
-.search-container {
-    padding: 15px;
-    background: linear-gradient(to bottom, #28a745, #8bc34a);
+:root {
+    --verde-pinol: #28a745;
+    --blanco: #ffffff;
+    --gris-suave: #f4f4f4;
+}
+
+body { font-family: 'Arial', sans-serif; margin: 0; background-color: var(--gris-suave); }
+
+.header-home {
+    background-color: var(--verde-pinol);
+    color: white;
+    padding: 20px;
     border-radius: 0 0 25px 25px;
 }
 
-.search-input {
-    width: 100%;
+.search-bar {
+    width: 90%;
+    margin: -15px auto 0;
     padding: 12px;
     border-radius: 20px;
     border: none;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.categories-grid {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px 10px;
-}
-
-.category-item {
-    text-align: center;
-    font-size: 12px;
-}
-
-.category-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 5px;
+.btn-carrito-flotante {
+    position: fixed;
+    bottom: 20px;
+    width: 90%;
+    left: 5%;
+    background-color: var(--verde-pinol);
     color: white;
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-
-/* Colores de las categorías de la foto */
-.bg-red { background-color: #e91e63; }
-.bg-orange { background-color: #ff9800; }
-.bg-green { background-color: #4caf50; }
-.bg-cyan { background-color: #00bcd4; }
