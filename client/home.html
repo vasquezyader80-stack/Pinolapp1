@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PinolApp | Inicio</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">PinolApp</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar Baho, Carne Asada...">
+            </div>
+            <div class="cart-icon" onclick="location.href='cart.html'">
+                🛒 <span id="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <main id="app">
+        <h2>Restaurantes Disponibles</h2>
+        <section class="restaurant-list" id="restaurant-list">
+            <p>Buscando sabores locales...</p>
+        </section>
+    </main>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>
