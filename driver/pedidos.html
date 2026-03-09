@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos Disponibles | PinolApp</title>
+    <link rel="stylesheet" href="../client/css/style.css">
+</head>
+<body>
+    <header style="background-color: #007bff;">
+        <h1>Pedidos Activos</h1>
+        <div id="status-toggle">Disponible 🟢</div>
+    </header>
+
+    <main id="orders-container">
+        <div class="loading">Buscando pedidos cercanos...</div>
+    </main>
+
+    <script src="../client/js/supabase-config.js"></script>
+    <script src="js/orders-logic.js"></script>
+</body>
+</html>
