@@ -1,51 +1,65 @@
-const productForm = document.getElementById('add-product-form');
+// restaurant/js/menu-manager.js
 
-// Guardar producto en la nube
-productForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById('prod-name').value;
-    const price = document.getElementById('prod-price').value;
-    const desc = document.getElementById('prod-desc').value;
-    const img = document.getElementById('prod-img').value;
-
-    // Insertar en la tabla 'productos' de Supabase
-    const { data, error } = await _supabase
-        .from('productos')
-        .insert([
-            { 
-                nombre: name, 
-                precio: parseFloat(price), 
-                descripcion: desc, 
-                imagen_url: img,
-                restaurante_id: localStorage.getItem('restaurante_id') // Persistencia de sesión
-            }
-        ]);
-
-    if (error) {
-        alert("Error al subir el producto. Intentá de nuevo.");
-    } else {
-        alert("¡Producto publicado con éxito!");
-        productForm.reset();
-        cargarMisProductos(); // Refresca la lista
-    }
-});
-
-// Función para listar lo que ya tiene el restaurante
-async function cargarMisProductos() {
-    const resId = localStorage.getItem('restaurante_id');
-    const { data, error } = await _supabase
+// 1. Función para cargar el menú actual del restaurante
+async function cargarMenu() {
+    const restaurantId = localStorage.getItem('restaurant_id');
+    
+    const { data: productos, error } = await _supabase
         .from('productos')
         .select('*')
-        .eq('restaurante_id', resId);
+        .eq('restaurante_id', restaurantId);
 
-    const container = document.getElementById('product-list-admin');
-    container.innerHTML = data.map(p => `
-        <div class="item-admin">
-            <span>${p.nombre} - C$ ${p.precio}</span>
-            <button onclick="eliminarProducto(${p.id})">Eliminar</button>
-        </div>
-    `).join('');
+    if (error) {
+        console.error("Error al obtener el menú:", error);
+        return;
+    }
+
+    const listaMenu = document.getElementById('menu-items');
+    listaMenu.innerHTML = ''; 
+
+    productos.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.nombre}</td>
+            <td>C$ ${item.precio}</td>
+            <td>${item.disponible ? '✅' : '❌'}</td>
+            <td>
+                <button onclick="eliminarProducto('${item.id}')">Eliminar</button>
+            </td>
+        `;
+        listaMenu.appendChild(tr);
+    });
 }
 
-cargarMisProductos();
+// 2. Función para agregar un nuevo platillo (Baho, Vigorón, etc.)
+async function agregarProducto(event) {
+    event.preventDefault();
+    
+    const nombre = document.getElementById('prod-nombre').value;
+    const precio = document.getElementById('prod-precio').value;
+    const restaurantId = localStorage.getItem('restaurant_id');
+
+    const { error } = await _supabase
+        .from('productos')
+        .insert([{ 
+            nombre: nombre, 
+            precio: parseFloat(precio), 
+            restaurante_id: restaurantId,
+            disponible: true 
+        }]);
+
+    if (error) {
+        alert("Error al guardar el producto");
+    } else {
+        alert("¡Producto añadido con éxito!");
+        document.getElementById('form-producto').reset();
+        cargarMenu();
+    }
+}
+
+// Inicializar
+document.addEventListener('DOMContentLoaded', () => {
+    cargarMenu();
+    const form = document.getElementById('form-producto');
+    if(form) form.addEventListener('submit', agregarProducto);
+});
