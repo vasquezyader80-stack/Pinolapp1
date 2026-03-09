@@ -1,12 +1,24 @@
 <?php
 // api/repartidores.php
-include 'config.php';
+include_once 'config.php';
 
-$data = json_decode(file_get_contents('php://input'), true);
+$metodo = $_SERVER['REQUEST_METHOD'];
+$data = json_decode(file_get_contents("php://input"));
 
-if ($data['accion'] == 'aprobar') {
-    $id_motorizado = $data['id'];
-    // Lógica SQL para cambiar estado a 'activo'
-    echo json_encode(["status" => "ok", "msj" => "Motorizado aprobado para PinolApp"]);
+if($metodo == 'GET'){
+    // Ver pedidos que necesitan motorizado
+    $query = "SELECT * FROM pedidos WHERE estado = 'Listo para entrega'";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+}
+
+if($metodo == 'POST'){
+    // Cuando Joel acepta el pedido
+    $query = "UPDATE pedidos SET repartidor_id = ?, estado = 'En camino' WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    if($stmt->execute([$data->repartidor_id, $data->pedido_id])){
+        echo json_encode(["status" => "success", "message" => "Pedido asignado"]);
+    }
 }
 ?>
