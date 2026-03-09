@@ -1,0 +1,32 @@
+/* restaurant/css/style.css */
+:root {
+    --color-primario: #e63946; /* Rojo Pinolero */
+    --blanco-fondo: #f8f9fa;
+    --texto-oscuro: #2b2d42;
+}
+
+body {
+    background-color: var(--blanco-fondo);
+    color: var(--texto-oscuro);
+    font-family: 'Arial', sans-serif;
+}
+
+.order-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-top: 6px solid var(--color-primario);
+}
+
+.btn-preparado {
+    background-color: #2a9d8f;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
