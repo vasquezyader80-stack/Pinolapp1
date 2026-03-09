@@ -29,3 +29,8 @@ async function cargarMenu() {
 }
 
 document.addEventListener('DOMContentLoaded', cargarMenu);
+// client/js/menu-loader.js
+
+// --- Al final del archivo ---
+// Esto hace que los productos aparezcan en pantalla de una vez
+document.addEventListener('DOMContentLoaded', cargarPlatillos);
