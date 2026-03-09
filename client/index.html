@@ -162,3 +162,9 @@
     </script>
 </body>
 </html>
+// Esperar 3 segundos para que el usuario vea el logo y luego saltar
+setTimeout(() => {
+    // Si el usuario ya inició sesión antes, va al Home
+    // Si no, lo mandamos al Login o al catálogo abierto
+    window.location.href = 'home.html'; 
+}, 3000);
