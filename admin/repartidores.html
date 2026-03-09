@@ -1,18 +1,46 @@
-<main style="padding: 20px;">
-    <h2>Control de Repartidores</h2>
-    <div class="search-box">
-        <input type="text" placeholder="Buscar por placa o nombre...">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Repartidores - PinolApp</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>PinolApp Admin</h2>
+        <nav>
+            <a href="dashboard.html">📊 Resumen</a>
+            <a href="restaurantes.html">🍳 Restaurantes</a>
+            <a href="repartidores.html" class="active">🛵 Repartidores</a>
+        </nav>
     </div>
-    <table style="width:100%; margin-top: 20px; border-collapse: collapse;">
-        <thead>
-            <tr style="background: #eee;">
-                <th>Nombre</th>
-                <th>Vehículo</th>
-                <th>Estado</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody id="lista-repartidores">
-            </tbody>
-    </table>
-</main>
+
+    <main class="main-content">
+        <header class="flex-header">
+            <h1>Flota de Repartidores</h1>
+            <div class="counter">Total Activos: <span id="count-online">0</span></div>
+        </header>
+
+        <section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Repartidor</th>
+                        <th>Vehículo</th>
+                        <th>Teléfono</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-repartidores">
+                    </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="../restaurant/js/supabase-config.js"></script>
+    <script src="js/admin-repartidores.js"></script>
+</body>
+</html>
