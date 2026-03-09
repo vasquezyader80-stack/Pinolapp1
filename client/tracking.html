@@ -1,10 +1,41 @@
-<div class="tracking-card">
-    <div class="driver-info">
-        <img src="images/driver-placeholder.png" id="driver-img">
-        <div>
-            <h4 id="driver-name">Buscando Repartidor...</h4>
-            <p>Estado: <span id="pedido-status">Preparando...</span></p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigue tu pedido - PinolApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-light">
+    <header class="header-app">
+        <button onclick="window.location.href='home.html'">⬅️</button>
+        <h1>Pedido en camino</h1>
+    </header>
+
+    <div id="map" style="height: 350px;"></div>
+
+    <div class="tracking-details">
+        <div class="driver-profile">
+            <img src="images/driver-avatar.png" alt="Repartidor" class="avatar">
+            <div class="info">
+                <h4 id="driver-name">Joel M.</h4>
+                <p id="driver-phone">+505 8888-9999</p>
+            </div>
+            <button class="btn-call">📞</button>
+        </div>
+
+        <div class="status-stepper">
+            <div class="step active">Recibido</div>
+            <div class="step" id="step-preparando">Preparando</div>
+            <div class="step" id="step-camino">En camino</div>
+            <div class="step" id="step-entregado">Entregado</div>
         </div>
     </div>
-    <div id="map" style="height: 300px; width: 100%;"></div>
-</div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/tracking-logic.js"></script>
+</body>
+</html>
