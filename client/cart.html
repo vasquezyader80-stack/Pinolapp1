@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito | PinolApp</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header style="background-color: var(--verde-pinol);">
+        <button onclick="location.href='home.html'">⬅ Volver</button>
+        <h1>Mi Pedido</h1>
+    </header>
+
+    <main id="cart-items">
+        </main>
+
+    <footer class="cart-footer">
+        <div class="total-section">
+            <span>Total a pagar:</span>
+            <h2 id="cart-total">C$ 0.00</h2>
+        </div>
+        <button id="btn-checkout" class="btn-ver" onclick="procesarPedido()">Confirmar Pedido</button>
+    </footer>
+
+    <script src="js/cart-logic.js"></script>
+</body>
+</html>
