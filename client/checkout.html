@@ -3,35 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmar Pedido - PinolApp</title>
+    <title>Finalizar Pedido - PinolApp</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <header class="header-app">
-        <button onclick="history.back()">⬅️</button>
-        <h1>Finalizar Pedido</h1>
+    <header class="checkout-header">
+        <button onclick="window.history.back()">⬅️</button>
+        <h2>Confirmar Pedido</h2>
     </header>
 
-    <div class="container">
-        <h3>Tu Resumen</h3>
-        <div id="resumen-pedido" class="card">
+    <main class="checkout-body">
+        <section class="delivery-info">
+            <h3>📍 Dirección de entrega</h3>
+            <textarea id="direccion" placeholder="Ej: De la cancillería 2c al sur, Managua"></textarea>
+            
+            <h3>📞 Teléfono de contacto</h3>
+            <input type="tel" id="telefono" placeholder="+505 0000-0000">
+        </section>
+
+        <section class="order-summary">
+            <h3>Resumen de pago</h3>
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="subtotal">C$ 0.00</span>
             </div>
+            <div class="summary-row">
+                <span>Envío:</span>
+                <span>C$ 40.00</span>
+            </div>
+            <hr>
+            <div class="summary-row total">
+                <span>Total a pagar:</span>
+                <span id="total-final">C$ 0.00</span>
+            </div>
+        </section>
 
-        <div class="direccion-envio">
-            <h3>📍 Dirección de Entrega</h3>
-            <textarea id="direccion" placeholder="Ej: De la Gasolinera Uno 2c al sur, León"></textarea>
-        </div>
+        <section class="payment-method">
+            <h3>💵 Método de pago</h3>
+            <select id="metodo-pago">
+                <option value="efectivo">Efectivo</option>
+                <option value="transferencia">Transferencia (BAC/Banpro)</option>
+            </select>
+        </section>
 
-        <div class="metodo-pago">
-            <p><strong>Total a pagar:</strong> <span id="total-final">C$ 0.00</span></p>
-        </div>
-
-        <button id="btn-confirmar" class="btn-primary" onclick="procesarPedido()">
-            Confirmar Pedido
+        <button class="btn-confirmar" onclick="enviarPedido()">
+            Confirmar Pedido C$ 
         </button>
-    </div>
+    </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/checkout-logic.js"></script>
 </body>
