@@ -3,56 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | PinolApp</title>
-    <link rel="stylesheet" href="../client/css/style.css">
-    <style>
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
-        .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; border-left: 5px solid var(--verde-pinol); }
-        .stat-card h2 { color: var(--verde-pinol); margin: 0; }
-    </style>
+    <title>Admin - PinolApp Control</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <header style="background-color: #343a40;">
-        <h1>Control Central PinolApp</h1>
+    <div class="sidebar">
+        <h2>PinolApp Admin</h2>
         <nav>
-            <a href="restaurantes.html" style="color: white; margin-right: 15px;">Negocios</a>
-            <a href="repartidores.html" style="color: white;">Flota Moto</a>
+            <a href="dashboard.html" class="active">📊 Resumen</a>
+            <a href="restaurantes.html">🍳 Restaurantes</a>
+            <a href="repartidores.html">🛵 Repartidores</a>
+            <a href="pedidos.html">📦 Todos los Pedidos</a>
         </nav>
-    </header>
+    </div>
 
-    <section class="stats-grid">
-        <div class="stat-card">
-            <p>Ventas del Día</p>
-            <h2 id="total-ventas">C$ 0.00</h2>
-        </div>
-        <div class="stat-card">
-            <p>Pedidos Activos</p>
-            <h2 id="pedidos-hoy">0</h2>
-        </div>
-        <div class="stat-card">
-            <p>Socios Activos</p>
-            <h2 id="total-socios">0</h2>
-        </div>
-    </section>
+    <main class="main-content">
+        <header>
+            <h1>Panel de Control Maestro</h1>
+        </header>
 
-    <main style="padding: 20px;">
-        <h3>Últimos Pedidos en el Sistema</h3>
-        <table border="1" style="width: 100%; background: white; border-collapse: collapse;" id="tabla-pedidos">
-            <thead style="background: #eee;">
-                <tr>
-                    <th>ID</th>
-                    <th>Restaurante</th>
-                    <th>Total</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                </tbody>
-        </table>
+        <div class="stats-grid">
+            <div class="card">
+                <h3>Ventas Totales (Hoy)</h3>
+                <p id="total-ventas">C$ 0.00</p>
+            </div>
+            <div class="card">
+                <h3>Pedidos en Curso</h3>
+                <p id="pedidos-activos">0</p>
+            </div>
+            <div class="card">
+                <h3>Repartidores Online</h3>
+                <p id="drivers-online">0</p>
+            </div>
+        </div>
+
+        <section class="recent-orders">
+            <h3>Últimos Pedidos en Nicaragua</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Restaurante</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-global-pedidos">
+                    </tbody>
+            </table>
+        </section>
     </main>
 
-    <script src="../client/js/supabase-config.js"></script>
-    <script src="js/admin-core.js"></script>
+    <script src="../restaurant/js/supabase-config.js"></script>
+    <script src="js/admin-logic.js"></script>
 </body>
 </html>
-
