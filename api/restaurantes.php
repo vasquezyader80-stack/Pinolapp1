@@ -2,9 +2,11 @@
 // api/restaurantes.php
 include 'config.php';
 
-// Consultar todos los restaurantes activos en Nicaragua
-$sql = "SELECT * FROM restaurantes WHERE estado = 'activo'";
-// Aquí iría la ejecución de la consulta SQL...
-
-echo json_encode($lista_restaurantes);
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    // Si viene una ciudad por parámetro, filtramos
+    $ciudad = $_GET['ciudad'] ?? '';
+    
+    // Aquí la lógica SQL: "SELECT * FROM restaurantes WHERE ubicacion LIKE %$ciudad%"
+    echo json_encode(["status" => "success", "data" => "Lista de negocios en $ciudad"]);
+}
 ?>
