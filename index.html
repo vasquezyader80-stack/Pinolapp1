@@ -4,94 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PinolApp - ¡A la orden!</title>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4CAF50">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <style>
-        :root {
-            --verde-pinol: #4CAF50;
-            --verde-oscuro: #2E7D32;
-            --blanco: #ffffff;
+        :root { --verde: #4CAF50; --oscuro: #2E7D32; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: sans-serif; overflow: hidden; }
+        #splash {
+            background: linear-gradient(180deg, var(--verde), var(--oscuro));
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
         }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-        }
-
-        #splash-screen {
-            background: linear-gradient(180deg, var(--verde-pinol), var(--verde-oscuro));
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-        }
-
-        .logo-container img {
-            width: 120px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
-        }
-
         .loader {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid var(--blanco);
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-top: 20px;
+            border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid white;
+            border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-top: 20px;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-
-    <div id="splash-screen">
-        <div class="logo-container">
-            <img src="images/logo.png" alt="PinolApp" onerror="this.src='https://via.placeholder.com/120?text=PinolApp'">
-        </div>
+    <div id="splash">
+        <img src="images/logo.png" alt="PinolApp" style="width:120px;" onerror="this.src='https://via.placeholder.com/120?text=PinolApp'">
         <h1>Cargando el sabor nica...</h1>
         <div class="loader"></div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("PinolApp inicializada...");
-
-            // Pequeño truco para asegurar que el Service Worker no bloquee el despliegue
             setTimeout(() => {
-                window.location.href = 'restaurant.html';
+                // Redirige a la subcarpeta client
+                window.location.href = 'client/restaurant.html';
             }, 3000);
         });
-
-        // Registro del Service Worker corregido (apuntando a la raíz)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('SW registrado', reg))
-                    .catch(err => console.warn('Error al registrar SW', err));
-            });
-        }
     </script>
 </body>
 </html>
