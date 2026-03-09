@@ -3,29 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PinolApp - El Buen Sabor</title>
+    <title>Menú - El Buen Sabor</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
+        .card { border: 1px solid #ddd; border-radius: 10px; overflow: hidden; text-align: center; padding-bottom: 15px; }
+        .card img { width: 100%; height: 180px; object-fit: cover; }
+        .precio { color: #2E7D32; font-weight: bold; font-size: 1.2rem; }
+        .btn-pedir { background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    </style>
 </head>
 <body>
-
-    <header class="header-app">
-        <button onclick="history.back()">←</button>
-        <h1>El Buen Sabor</h1>
-        <div class="cart-icon">🛒<span id="cart-count">0</span></div>
+    <header style="background:#4CAF50; color:white; padding:15px; text-align:center;">
+        <h2>El Buen Sabor - PinolApp</h2>
     </header>
 
-    <main id="lista-menu" class="container">
-        <div class="loader-simple">Cargando menú nica...</div>
-    </main>
-
-    <footer class="footer-carrito">
-        <button class="btn-primary">
-            Ver carrito (<span id="total-carrito">C$ 0.00</span>)
-        </button>
-    </footer>
+    <div id="menu-container" class="menu-grid">
+        <p style="text-align:center;">Buscando los mejores platillos...</p>
+    </div>
 
     <script src="js/supabase-config.js"></script>
-    <script src="js/menu-loader.js"></script>
+    <script>
+        async function cargarProductos() {
+            const container = document.getElementById('menu-container');
+            
+            // Consulta a la tabla 'productos' en Supabase
+            const { data: productos, error } = await _supabase
+                .from('productos')
+                .select('*');
+
+            if (error) {
+                container.innerHTML = "<p>Error al conectar con la base de datos.</p>";
+                return;
+            }
+
+            container.innerHTML = ''; // Limpiar mensaje de carga
+
+            productos.forEach(p => {
+                container.innerHTML += `
+                    <div class="card">
+                        <img src="${p.imagen_url}" alt="${p.nombre}" onerror="this.src='https://via.placeholder.com/250?text=Platillo'">
+                        <h3>${p.nombre}</h3>
+                        <p>${p.descripcion}</p>
+                        <p class="precio">C$ ${p.precio}</p>
+                        <button class="btn-pedir" onclick="alert('Pedido de ${p.nombre} iniciado')">Pedir Ahora</button>
+                    </div>
+                `;
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', cargarProductos);
+    </script>
 </body>
 </html>
