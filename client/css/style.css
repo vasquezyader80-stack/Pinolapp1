@@ -1,56 +1,42 @@
-:root {
-    --verde-pinol: #28a745;
-    --amarillo-nica: #ffc107;
-    --blanco: #ffffff;
-    --gris-fondo: #f4f4f4;
+/* Estilo de la barra de búsqueda y categorías */
+.search-container {
+    padding: 15px;
+    background: linear-gradient(to bottom, #28a745, #8bc34a);
+    border-radius: 0 0 25px 25px;
 }
 
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: var(--gris-fondo);
-    margin: 0;
-}
-
-header {
-    background-color: var(--verde-pinol);
-    color: var(--blanco);
-    padding: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.restaurant-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-
-.card img {
+.search-input {
     width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
-
-.card h3 {
-    padding: 10px;
-    margin: 0;
-}
-
-.btn-ver {
-    width: 100%;
-    padding: 10px;
-    background: var(--verde-pinol);
-    color: white;
+    padding: 12px;
+    border-radius: 20px;
     border: none;
-    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
+.categories-grid {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 10px;
+}
+
+.category-item {
+    text-align: center;
+    font-size: 12px;
+}
+
+.category-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    color: white;
+}
+
+/* Colores de las categorías de la foto */
+.bg-red { background-color: #e91e63; }
+.bg-orange { background-color: #ff9800; }
+.bg-green { background-color: #4caf50; }
+.bg-cyan { background-color: #00bcd4; }
